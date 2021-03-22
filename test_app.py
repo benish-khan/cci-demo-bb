@@ -1,6 +1,6 @@
 import unittest
 import sqlite3
-from app import index
+from app import app 
 
 
 class testClass(unittest.TestCase):
@@ -13,40 +13,87 @@ class testClass(unittest.TestCase):
         cmd_to_create_test_db = "CREATE TABLE posts (title TEXT, content TEXT)"
         c.execute(cmd_to_create_test_db)
         # add the first test blog post with title.
-        cmd_test_blog_1="INSERT INTO posts (title=First Post , content=Example test content for the first post')"
+        cmd_test_blog_1= "INSERT INTO posts (title, content) VALUES('First Post', 'blah')"
         c.execute(cmd_test_blog_1)
          # add the first test blog post with title.
-        cmd_test_blog_2="INSERT INTO posts (title=Second Post , content='Example test content for the second post')"
+        cmd_test_blog_2= "INSERT INTO posts (title, content) VALUES('Second Post', 'blah blah')"
         c.execute(cmd_test_blog_2)
-        test_posts = conn.execute('SELECT * FROM posts').fetchall()
-        print(test_posts)
+        test_posts = self.conn.execute('SELECT * FROM posts').fetchall()
+        #print(test_posts)
         self.conn.commit()
 
 
-    # def test_index(self):
-    #     """ test is the index page displays all posts """
-    #     #self.assertEqual()
-    #     pass
 
-    # def test_post(self):
-    #     #self.assertEqual()
-    #     pass
+    def test_index(self):
+        test_posts = self.conn.execute('SELECT * FROM posts').fetchall()
+        posts = self.conn.execute('SELECT * FROM posts').fetchall()
+        #print(posts)
+        self.conn.close()
 
-    # def test_create(self):
-    #     #self.assertEqual()
-    #     pass
 
-    # def test_edit(self):
-    #     #self.assertEqual()
-    #     pass
+    def test_get_post(self): #need to pass in post_id without it erroring out.
+        test_posts = self.conn.execute('SELECT * FROM posts').fetchall()
+        # first_post = conn.execute('SELECT * FROM posts WHERE id = ?', (post_id,)).fetchone()
+        # print(first_post)
+        # second_post = conn.execute('SELECT * FROM posts WHERE id = ?', (post_id,)).fetchone()
+        # print(second_post)
+        self.conn.close()
+        # getting error: TypeError: test_get_post() missing 1 required positional argument: 'post_id'
 
-    # def test_delete(self):
-    #     #self.assertEqual()
-    #     pass 
 
-    # def tearDown(self):
-    #     """ This function tears down db once tests are completed."""
-    #     self.conn.close()
+
+    def test_post(self):
+       test_posts = self.conn.execute('SELECT * FROM posts').fetchall()
+    #    post = test_get_post(post_id)
+       self.conn.close()
+
+
+    def test_create(self):
+        # title = request.form['title']
+        # content = request.form['content']
+# error received: NameError: name 'request' is not defined
+
+        # if not title:
+        #     flash('Title is required!')
+        # else:
+        #     conn = get_db_connection()
+        #     conn.execute('INSERT INTO posts (title, content) VALUES (?, ?)',
+        #                  (title, content))
+        #     conn.commit()
+        #     conn.close()
+        self.conn.close()
+
+
+
+    def test_edit(self):
+        #  post = test_get_post(id)
+
+        # if request.method == 'POST':
+        #     title = request.form['title']
+        #     content = request.form['content']
+
+        #     if not title:
+        #         flash('Title is required!')
+        #     else:
+        #         conn = get_db_connection()
+        #         conn.execute('UPDATE posts SET title = ?, content = ?'
+        #                     ' WHERE id = ?',
+        #                     (title, content, id))
+        self.conn.close()   
+    
+    def test_delete(self):
+        self.conn.close()
+
+
+    def tearDown(self):
+        # post = get_post(id)
+        # conn = get_db_connection()
+        # conn.execute('DELETE FROM posts WHERE id = ?', (id,))
+        # conn.commit()
+        # conn.close()
+        # flash('"{}" was successfully deleted!'.format(post['title']))
+        self.conn.close()
+
 
 if __name__ == '__main__':
     unittest.main()

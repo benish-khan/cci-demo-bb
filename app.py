@@ -22,7 +22,6 @@ def get_post(post_id):
 @app.route('/')
 def index():
     """ This page should list all posts in database """
-    #print("1")
     conn = get_db_connection()
     posts = conn.execute('SELECT * FROM posts').fetchall()
     #print(posts)
