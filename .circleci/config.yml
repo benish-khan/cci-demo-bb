@@ -4,6 +4,8 @@ orbs:
   python: circleci/python@1.3.2
 
 
+
+
 workflows:
   my_workflow:  # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
@@ -15,9 +17,7 @@ jobs:
   build-and-test:
     docker:
       - image: cimg/python:3.8
-        auth:
-          username: bsarinelli
-          password: $DOCKERHUB_PASSWORD
+
         environment:
           # This URL is configured from the environment variables set below
 
@@ -29,4 +29,16 @@ jobs:
       - run:
           name: Run tests
           command: pytest 
+
   deploy_application:
+    docker:
+      - image: cimg/python:3.8
+    
+    steps:
+      - checkout
+      - run:
+          name: Deploying deploy_application
+          command: echo "Deploying app now..."
+        
+
+
