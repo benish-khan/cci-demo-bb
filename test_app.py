@@ -13,11 +13,11 @@ class testClass(unittest.TestCase):
         cmd_to_create_test_db = "CREATE TABLE posts (title TEXT, content TEXT)"
         c.execute(cmd_to_create_test_db)
         # add the first test blog post with title.
-        cmd_test_blog_1= "INSERT INTO posts (title, content) VALUES('First Post', 'blah')"
-        c.execute(cmd_test_blog_1)
+        blog_1= "INSERT INTO posts (title, content) VALUES('First Post', 'blah')"
+        c.execute(blog_1)
          # add the first test blog post with title.
-        cmd_test_blog_2= "INSERT INTO posts (title, content) VALUES('Second Post', 'blah blah')"
-        c.execute(cmd_test_blog_2)
+        blog_2= "INSERT INTO posts (title, content) VALUES('Second Post', 'blah blah')"
+        c.execute(blog_2)
         test_posts = self.conn.execute('SELECT * FROM posts').fetchall()
         #print(test_posts)
         self.conn.commit()
@@ -26,19 +26,21 @@ class testClass(unittest.TestCase):
 
     def test_index(self):
         test_posts = self.conn.execute('SELECT * FROM posts').fetchall()
-        posts = self.conn.execute('SELECT * FROM posts').fetchall()
-        #print(posts)
+        #print(test_posts)
+        #self.assertEqual(len(test_posts), n, "All posts should print")
+
         self.conn.close()
 
 
-    def test_get_post(self): #need to pass in post_id without it erroring out.
-        test_posts = self.conn.execute('SELECT * FROM posts').fetchall()
-        # first_post = conn.execute('SELECT * FROM posts WHERE id = ?', (post_id,)).fetchone()
-        # print(first_post)
-        # second_post = conn.execute('SELECT * FROM posts WHERE id = ?', (post_id,)).fetchone()
-        # print(second_post)
-        self.conn.close()
-        # getting error: TypeError: test_get_post() missing 1 required positional argument: 'post_id'
+    # def test_get_post(self): #need to pass in post_id without it erroring out.
+    #     #test_posts = self.conn.execute('SELECT * FROM posts').fetchall()
+    #     first_post = self.conn.execute('SELECT * FROM posts WHERE title = ?', (1,)).fetchone()
+    #     print(first_post)
+    #     # second_post = conn.execute('SELECT * FROM posts WHERE id = ?', (post_id,)).fetchone()
+    #     # print(second_post)
+    #     self.assertEqual(first_post.title,"First Post", "Blog post 1 should print")
+    #     self.conn.close()
+
 
 
 
