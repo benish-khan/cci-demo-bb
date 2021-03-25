@@ -4,60 +4,72 @@ version: 2.1 # use 2.1 to make use of orbs and pipelines
 orbs:
   python: circleci/python@1.3.3
   slack: circleci/slack@2.0.0
+  heroku: circleci/heroku@1.2.6
+
+### Executors ### 
+executors:
+  python-executor:
+    docker:
+      - image: cimg/python:3.8
+    resource_class: medium
+
 
 ### Workflows ###
 workflows:
   version: 2.1
   build-test-&-deploy: 
     jobs:
-      - build-python-app
-      - test-python-app
-
-      # - setup-heroku-environment:
-      #     filters:
-      #       branches:
-      #         only:
-      #           - master
+      - build
+      - test
+      - deploy-to-heroku: #the app will deploy changed made only when pushed from testingdb branch
+          filters:
+            branches:
+              only:
+                - testingdb
 
 
  ### Jobs ###
 jobs:
   
-  build-python-app: #job with steps to build my application
-    docker:
-      - image: cimg/python:3.8
+  build: #job with steps to build my application
+    executor: python-executor
     steps:
       - checkout
-      - python/install-packages:
-          args: pytest
-          pkg-manager: pip
+      - run: 
+          name: Install Python Dependencies
+          command: | 
+            pip install --user --no-cache-dir -r requirments.txt
+
       - run:
           command: | 
             pipenv run pytest --version
           name: Test it now
 
 
-
-
-  test-python-app: #job with steps to test my application
-    docker:
-      - image: cimg/python:3.8
+  test: #job with steps to test my application
+    executor: python-executor
     steps:
       - checkout
       - run:
-          name: Run tests
-          command: pytest 
-
-
-setup-heroku-environment: #job with steps to deploy my application once build and tests jobs pass on master only.
-  docker:
-    - image: cimg/python:3.8
-  steps:
-    - checkout
-    - run:
-        name: Provision Heroku Dyno
-        command: echo "This is a test msg"
+          name: Run Tests
+          command: ~/.local/bin/pytest
 
 
 
+  deploy-to-heroku: #job with steps to deploy my application once build and tests jobs pass on master only.
+    executor: python-executor
+    steps:
+      - checkout
+      - run:
+          name: Setup Heroku CLI 
+          command: |
+            sudo curl https://cli-assets.heroku.com/install.sh | sh
+      - run:
+          name: Restart heroku dyno
+          command: |
+            heroku restart web.1 --app $HEROKU_APP_NAME
 
+      - run:
+          name: Run Logs
+          command: |
+            heroku logs --app $HEROKU_APP_NAME
