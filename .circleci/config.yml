@@ -20,8 +20,17 @@ workflows:
   build-test-&-deploy: 
     jobs:
       - build
-      - test
+      - test:
+          requires:
+            - build 
+      - hold-heroku-deploy:
+          type: approval
+          requires:
+            - build
+            - test
       - deploy-to-heroku: #the app will deploy changed made only when pushed from testingdb branch
+          requires:
+            - hold-heroku-deploy
           filters:
             branches:
               only:
@@ -48,11 +57,14 @@ jobs:
 
   test: #job with steps to test my application
     executor: python-executor
+    parallelism: 4
     steps:
       - checkout
+
       - run:
           name: Run Tests
-          command: ~/.local/bin/pytest
+          command: |
+
 
 
 
