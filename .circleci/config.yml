@@ -67,6 +67,21 @@ jobs:
     parallelism: 4
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+            - pip-packages-v1-{{ .Branch }}-
+            - pip-packages-v1-
+
+      - run: 
+          name: Install Python Dependencies
+          command: | 
+            pip install --user --no-cache-dir -r requirements.txt
+      - save_cache: # cache Python dependencies using checksum of Pipfile as the cache-key
+          key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+          paths:
+            - ./venv
+
       # - run:
       #     name: Testing command confirm pytest version
       #     command: pipenv run pytest --version
