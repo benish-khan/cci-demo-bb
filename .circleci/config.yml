@@ -44,22 +44,42 @@ jobs:
     executor: python-executor
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+            - pip-packages-v1-{{ .Branch }}-
+            - pip-packages-v1-
+
       - run: 
           name: Install Python Dependencies
           command: | 
             pip install --user --no-cache-dir -r requirements.txt
+      - save_cache: # cache Python dependencies using checksum of Pipfile as the cache-key
+          keys: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+          paths:
+            - "./venv"
 
-      - run:
-          command: | 
-            pipenv run pytest --version
-          name: Test it now
+
 
 
   test: #job with steps to test my application
     executor: python-executor
-    parallelism: 1
+    parallelism: 4
     steps:
       - checkout
+      - run:
+          name: Testing command confirm pytest version
+          command: pipenv run pytest --version
+          
+      - run:
+          name: Running tests within test_app.py file. 
+          command: pipenv run python test_app.py
+
+      - store_test_results:
+          path: test_results
+      - store_artifacts:
+          path: test_results
+          destination: trl
 
       - run:
           name: Run Tests
