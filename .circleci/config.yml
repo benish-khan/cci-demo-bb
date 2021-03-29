@@ -51,9 +51,11 @@ jobs:
             - pip-packages-v1-
 
       - run: 
-          name: Install Python Dependencies
+          name: Install Python Dependencies in a venv 
           command: | 
-            pip install --user --no-cache-dir -r requirements.txt
+            python3 -m venv venv
+            . venv/bin/activate
+            pip install -r requirements.txt
       - save_cache: # cache Python dependencies using checksum of Pipfile as the cache-key
           key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
