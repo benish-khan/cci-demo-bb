@@ -55,9 +55,9 @@ jobs:
           command: | 
             pip install --user --no-cache-dir -r requirements.txt
       - save_cache: # cache Python dependencies using checksum of Pipfile as the cache-key
-          keys: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+          key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
-            - "./venv"
+            - ./venv
 
 
 
@@ -67,9 +67,9 @@ jobs:
     parallelism: 4
     steps:
       - checkout
-      - run:
-          name: Testing command confirm pytest version
-          command: pipenv run pytest --version
+      # - run:
+      #     name: Testing command confirm pytest version
+      #     command: pipenv run pytest --version
           
       - run:
           name: Running tests within test_app.py file. 
