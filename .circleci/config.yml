@@ -67,6 +67,9 @@ jobs:
     parallelism: 4
     steps:
       - checkout
+      - run:
+          name: Pip install flask
+          command: pip install flask
       - restore_cache:
           keys:
             - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
