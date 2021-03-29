@@ -55,7 +55,7 @@ jobs:
           command: | 
             python3 -m venv venv
             . venv/bin/activate
-            pip install -r requirements.txt
+            pip install -r Pipfile
       - save_cache: # cache Python dependencies using checksum of Pipfile as the cache-key
           key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
@@ -74,7 +74,7 @@ jobs:
           command: | 
             python3 -m venv venv
             . venv/bin/activate
-            pip install -r requirements.txt
+            pip install -r Pipfile
 
 
       # - run:
