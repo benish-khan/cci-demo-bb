@@ -55,8 +55,8 @@ jobs:
           command: | 
             pip install --user --no-cache-dir -r requirements.txt
       - save_cache: # cache Python dependencies using checksum of Pipfile as the cache-key
-          keys: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
-          path:
+          key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
+          paths:
             - "./venv"
 
 
