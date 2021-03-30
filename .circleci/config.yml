@@ -4,7 +4,7 @@ version: 2.1 # use 2.1 to make use of orbs and pipelines
 orbs:
   python: circleci/python@1.3.3
   slack: circleci/slack@2.0.0
-  heroku: circleci/heroku@1.2.6
+  heroku: circleci/heroku@1.2.6 
 
 ### Executors ### 
 executors:
@@ -63,7 +63,7 @@ jobs:
 
 
   test: #job with steps to test my application
-    executor: python-executor
+    executor: python-executor   #this was pre-defined and called here
     parallelism: 4
     steps:
       - checkout
