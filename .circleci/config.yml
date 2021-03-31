@@ -77,10 +77,9 @@ jobs:
       - run:
           name: Running tests within test_app.py file. 
           command: |
-           virtualenv venv
             . venv/bin/activate
             mkdir test-results
-            pytest test_app.py --junitxml=test-results/junit.xml
+            python3 test_app.py --junitxml=test-results/junit.xml
 
 
 
