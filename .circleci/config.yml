@@ -62,7 +62,7 @@ jobs:
 
 
 
-  test: #job with steps to test my application
+  test_crud: #job with steps to test my application
     executor: python-executor   #this was pre-defined and called here
     parallelism: 4
     steps:
