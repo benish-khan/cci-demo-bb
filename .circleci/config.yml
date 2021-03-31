@@ -20,7 +20,7 @@ workflows:
   build-test-&-deploy: 
     jobs:
       - build
-      - test:
+      - test_crud:
           requires:
             - build 
       - hold-heroku-deploy:
