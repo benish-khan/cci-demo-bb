@@ -20,14 +20,14 @@ workflows:
   build-test-&-deploy: 
     jobs:
       - build
-      - test_crud:
+      - test_crud_operations:
           requires:
             - build 
       - hold-heroku-deploy:
           type: approval
           requires:
             - build
-            - test
+            - test_crud_operations
       - deploy-to-heroku: #the app will deploy changed made only when pushed from testingdb branch
           requires:
             - hold-heroku-deploy
@@ -62,7 +62,7 @@ jobs:
 
 
 
-  test_crud: #job with steps to test my application
+  test_crud_operations: #job with steps to test my application
     executor: python-executor   #this was pre-defined and called here
     parallelism: 4
     steps:
