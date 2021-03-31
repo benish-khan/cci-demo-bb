@@ -24,6 +24,7 @@ class testClass(unittest.TestCase):
 
 
 
+
     def test_index(self):
         test_posts = self.conn.execute('SELECT * FROM posts').fetchall()
        # print(test_posts)
@@ -99,6 +100,8 @@ class testClass(unittest.TestCase):
         # conn.close()
         # flash('"{}" was successfully deleted!'.format(post['title']))
         self.conn.close()
+
+
 
 
 if __name__ == '__main__':

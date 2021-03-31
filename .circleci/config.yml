@@ -72,7 +72,14 @@ jobs:
           command: | 
             pipenv install  
             
-
+      - run:
+          name: Silly test
+          command: |
+            ls 
+            pwd
+            cd venv
+            ls
+            
 
       - run:
           name: Running tests within test_app.py file. 
