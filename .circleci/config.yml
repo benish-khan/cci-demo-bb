@@ -70,31 +70,21 @@ jobs:
       - run: 
           name: Install Python Dependencies in a venv 
           command: | 
-            pipenv install 
-            pipenv run 
-            
+            pipenv install  
+
+
       # - run:
-      #     name: Silly test
-      #     command: |
-      #       ls 
-      #       pwd
-      #       cd venv
-      #       ls
-
-
+      #     name: Testing command confirm pytest version
+      #     command: pipenv run pytest --version
+          
       - run:
           name: Running tests within test_app.py file. 
-          command: |
-            # . venv/bin/activate
-            mkdir test-results
-            python3 test_app.py --junitxml=test-results/junit.xml
-
-
+          command: pipenv run python test_app.py 
 
       - store_test_results:
-          path: test-results
+          path: test_results
       - store_artifacts:
-          path: test-results
+          path: test_results
           destination: trl
 
       - run:
