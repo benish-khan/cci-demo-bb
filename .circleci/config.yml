@@ -51,10 +51,8 @@ jobs:
             - pip-packages-v1-
 
       - run: 
-          name: Install Python Dependencies in a venv 
-          command: | 
-            pipenv install
-            pipenv run requirements.txt
+          name: Install pipenv
+          run: pipenv install
 
       
 
