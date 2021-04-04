@@ -54,6 +54,10 @@ jobs:
           name: Install Python Dependencies in a venv 
           command: | 
             pipenv install
+            pipenv shell 
+            pipenv run
+      
+
       - save_cache: # cache Python dependencies using checksum of Pipfile as the cache-key
           key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
