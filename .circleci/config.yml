@@ -54,7 +54,7 @@ jobs:
           name: Install Python Dependencies in a venv 
           command: | 
             pipenv install
-            pipenv shell 
+            pipenv requirements.txt
       
 
       - save_cache: # cache Python dependencies using checksum of Pipfile as the cache-key
