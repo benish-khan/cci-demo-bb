@@ -57,15 +57,18 @@ jobs:
           name: Check Python version
           command: | 
             pipenv run python --version
+      - run:
+          name: Print relative path 
+          command: pwd
 
       - save_cache: # cache Python dependencies using checksum of Pipfile as the cache-key
           key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
             - ./venv
-      - persist_to_workspace:
-          root: ~/project
-          paths:
-            - my-temp-workspace
+      # - persist_to_workspace:
+      #     root: ~/project
+      #     paths:
+      #       - my-temp-workspace
 
 
 
