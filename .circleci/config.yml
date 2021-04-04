@@ -49,12 +49,15 @@ jobs:
             - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
             - pip-packages-v1-{{ .Branch }}-
             - pip-packages-v1-
-
       - run: 
-          name: Install Python Dependencies in a venv 
+          name: Install Python venv 
           command: | 
             pipenv install
+      - run:
+          name: Check Python version
+          command: | 
             pipenv run python --version
+
 
       
 
@@ -62,7 +65,12 @@ jobs:
           key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
             - ./venv
-
+      - persist_to_workspace:
+          root: /tmp/dir
+          paths:
+            - my-temp-workspace
+      - attach_workspace:
+          at: /tmp/my-temp-workspace
 
 
 
@@ -74,21 +82,16 @@ jobs:
       - run: 
           name: Install Python Dependencies in a venv 
           command: | 
-            pipenv install  
-
-
-      # - run:
-      #     name: Testing command confirm pytest version
-      #     command: pipenv run pytest --version
-          
+            pipenv install 
+       
       - run:
           name: Running tests within test_app.py file. 
           command: pipenv run python test_app.py 
 
       - store_test_results:
-          path: test_results
+          path: test-results
       - store_artifacts:
-          path: test_results
+          path: test-results
           destination: trl
 
       - run:
