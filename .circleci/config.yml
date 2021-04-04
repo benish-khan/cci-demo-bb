@@ -12,6 +12,7 @@ executors:
     docker:
       - image: cimg/python:3.8
     resource_class: medium
+  
 
 
 ### Workflows ###
@@ -51,8 +52,9 @@ jobs:
             - pip-packages-v1-
 
       - run: 
-          name: Install Python Dependencies in a venv 
+          name: Install Python Dependencies
           command: | 
+            sudo pip install pipenv
             pipenv install
       - save_cache: # cache Python dependencies using checksum of Pipfile as the cache-key
           key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
@@ -70,8 +72,8 @@ jobs:
       - run: 
           name: Install Python Dependencies in a venv 
           command: | 
-            pipenv install  
-
+            sudo pip install pipenv
+            pipenv install
 
       # - run:
       #     name: Testing command confirm pytest version
@@ -79,12 +81,20 @@ jobs:
           
       - run:
           name: Running tests within test_app.py file. 
-          command: pipenv run python test_app.py 
+          command: pipenv run pytest test_app.py 
+
+      - run:
+          name: store the test test-results
+          command: |
+            . venv/bin/activate
+            mkdir test-results
+            pytest --junitxml=test-results/junit.xml
+
 
       - store_test_results:
-          path: test_results
+          path: test-results
       - store_artifacts:
-          path: test_results
+          path: test-results
           destination: trl
 
       - run:
