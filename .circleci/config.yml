@@ -63,7 +63,7 @@ jobs:
           paths:
             - ./venv
       - persist_to_workspace:
-          root: /tmp/dir
+          root: ~/project
           paths:
             - my-temp-workspace
 
@@ -76,7 +76,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: /tmp/dir
+          at: ~/project
       - run: 
           name: Install Python Dependencies in a venv 
           command: | 
