@@ -79,7 +79,7 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: ~/project
+          at: .
       - run: 
           name: Install Python Dependencies in a venv 
           command: | 
@@ -87,7 +87,20 @@ jobs:
        
       - run:
           name: Running tests within test_app.py file. 
-          command: pipenv run python test_app.py 
+          command: pipenv run pytest test_app.py 
+      - run:
+          name: Create test-results folder
+          command: mkdir test-results
+      - run:
+          name: Conversion of test-results to junit.xml file
+          command: pytest --junitxml=test-results/junit.xml
+
+      - run: 
+          command: cp test-results.xml ~/junit/
+          when: always
+            
+            
+    
 
       - store_test_results:
           path: test-results
