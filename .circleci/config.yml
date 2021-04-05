@@ -54,7 +54,7 @@ jobs:
           command: | 
             pipenv install virtualenv
             virtualenv venv
-            pipenv shell
+            # pipenv shell
             pipenv run coverage test_app.py
             # pipenv run pytest test_app.py
       # - run:
