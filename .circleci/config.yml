@@ -54,8 +54,15 @@ jobs:
           command: | 
             pipenv install virtualenv
             virtualenv venv
+
+      - run:
+          name: Running tests within test_app.py file. 
+          command: | 
+            virtualenv venv
+            pytest --junitxml=test-results/junit.xml 
+            pipenv run pytest test_app.py 
             # pipenv shell
-            run coverage test_app.py
+            # run coverage test_app.py
             # pipenv run pytest test_app.py
       # - run:
       #     name: Check Python version
@@ -90,12 +97,7 @@ jobs:
   #         command: | 
   #           pipenv install 
        
-      - run:
-          name: Running tests within test_app.py file. 
-          command: | 
-            . venv/bin/activate
-            pytest --junitxml=test-results/junit.xml 
-              pipenv run pytest test_app.py 
+
   #     - run:
   #         name: Create test-results folder
   #         command: mkdir test-results
