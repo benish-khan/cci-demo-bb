@@ -20,14 +20,14 @@ workflows:
   build-test-&-deploy: 
     jobs:
       - build
-      - test_crud_operations:
-          requires:
-            - build 
+      # - test_crud_operations:
+      #     requires:
+      #       - build 
       - hold-heroku-deploy:
           type: approval
           requires:
             - build
-            - test_crud_operations
+            # - test_crud_operations
       - deploy-to-heroku: #the app will deploy changed made only when pushed from testingdb branch
           requires:
             - hold-heroku-deploy
@@ -50,54 +50,60 @@ jobs:
             - pip-packages-v1-{{ .Branch }}-
             - pip-packages-v1-
       - run: 
-          name: Install Python venv 
+          name: Install dependencies
           command: | 
-            pipenv install
-      - run:
-          name: Check Python version
-          command: | 
-            pipenv run python --version
-      - run:
-          name: Print relative path 
-          command: pwd
+            python3 -m venv env
+            . venv/bin/activate
+            pip install .
+      # - run:
+      #     name: Check Python version
+      #     command: | 
+      #       pipenv run python --version
+      # - run:
+      #     name: Print relative path 
+      #     command: pwd
 
       - save_cache: # cache Python dependencies using checksum of Pipfile as the cache-key
           key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
             - ./venv
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
+
+  #     - persist_to_workspace:
+  #         root: .
+  #         paths:
+  #           - .
 
 
 
 
-  test_crud_operations: #job with steps to test my application
-    executor: python-executor   #this was pre-defined and called here
-    parallelism: 4
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run: 
-          name: Install Python Dependencies in a venv 
-          command: | 
-            pipenv install 
+  # test_crud_operations: #job with steps to test my application
+  #   executor: python-executor   #this was pre-defined and called here
+  #   parallelism: 4
+  #   steps:
+  #     - checkout
+  #     - attach_workspace:
+  #         at: .
+  #     - run: 
+  #         name: Install Python Dependencies in a venv 
+  #         command: | 
+  #           pipenv install 
        
       - run:
           name: Running tests within test_app.py file. 
-          command: pipenv run pytest test_app.py 
-      - run:
-          name: Create test-results folder
-          command: mkdir test-results
-      - run:
-          name: Conversion of test-results to junit.xml file
-          command: pytest --junitxml=test-results/junit.xml
+          command: | 
+            . venv/bin/activate
+            pytest --junitxml=test-results/junit.xml 
+              pipenv run pytest test_app.py 
+  #     - run:
+  #         name: Create test-results folder
+  #         command: mkdir test-results
+  #     - run:
+  #         name: Conversion of test-results to junit.xml file
+  #         command: pytest --junitxml=test-results/junit.xml
 
-      - run: 
-          command: cp test-results.xml ~/junit/
-          when: always
+  #     - run: 
+  #         command: cp test-results.xml ~/junit/
+  #         when: always
             
             
     
