@@ -53,14 +53,13 @@ jobs:
           name: Install dependencies
           command: | 
             pipenv install virtualenv
-            virtualenv 
             source venv/bin/activate
+            . virtualenv 
 
       - run:
           name: Running tests within test_app.py file. 
           command: | 
             virtualenv venv
-            source venv/bin/activate
             pipenv run pytest test_app.py 
             pytest --junitxml=test-results/junit.xml 
             
