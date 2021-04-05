@@ -52,8 +52,9 @@ jobs:
       - run: 
           name: Install dependencies
           command: | 
-            python3 -m venv env
-            . venv/bin/activate
+            pipenv install virtualenv
+            virtualenv venv
+            source venv/bin/activate
             pip install .
       # - run:
       #     name: Check Python version
