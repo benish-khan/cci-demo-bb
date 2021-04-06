@@ -55,8 +55,7 @@ jobs:
             pipenv install virtualenv
             # source venv/bin/activate
             . virtualenv 
-            pipenv run pytest test_app.py 
-            pytest --junitxml=test-results/junit.xml
+            pipenv run pytest test_app.py && --junitxml=test-results/junit.xml
 
       # - run:
       #     name: Running tests within test_app.py file. 
