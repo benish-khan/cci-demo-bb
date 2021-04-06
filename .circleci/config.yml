@@ -84,7 +84,12 @@ jobs:
           name: Install Python Dependencies in a venv 
           command: | 
             pipenv install 
-       
+      
+      - run: 
+          name: Create test-results file to store test-results in
+          command: |
+              cd /home/circleci/project
+              mkdir test-results
       - run:
           name: Running tests within test_app.py file. 
           command: pipenv run python test_app.py 
