@@ -61,12 +61,12 @@ jobs:
           paths:
 <<<<<<< HEAD
             - "./venv"
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-=======
-            - ./venv
+#       - persist_to_workspace:
+#           root: .
+#           paths:
+#             - .
+# =======
+            # - ./venv
       # - persist_to_workspace:
       #     root: ~/project
       #     paths:
