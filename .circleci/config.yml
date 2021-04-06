@@ -92,7 +92,7 @@ jobs:
               mkdir test-results
       - run:
           name: Running tests within test_app.py file. 
-          command: pipenv run python test_app.py 
+          command: pipenv run python test_app.py  
 
       - store_test_results:
           path: test-results
