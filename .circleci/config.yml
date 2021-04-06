@@ -12,12 +12,8 @@ orbs:
 executors:
   python-executor:
     docker:
-      - image: cimg/python:3.9.2
+      - image: cimg/python:3.8
 
-  python-browser-tools:
-    docker:
-      - image: cimg/python:3.9.2-browsers
-  
 
 
 ### Workflows ###
@@ -104,9 +100,9 @@ jobs:
 
 
   test_crud_operations: #job with steps to test my application
-    executor: python-browser-tools   #this was pre-defined and called here
+    executor: python-executor   #this was pre-defined and called here
     parallelism: 4
-    resource_class: medium
+    resource_class: medium+
     steps:
       - checkout
       - attach_workspace:
