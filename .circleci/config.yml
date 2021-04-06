@@ -111,6 +111,7 @@ jobs:
           name: Install Python Dependencies in a venv 
           command: | 
             pipenv install 
+            pipenv install unittest-xml-reporting
       
       - run: 
           name: Create test-results file to store test-results in
