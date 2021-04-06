@@ -30,22 +30,26 @@ workflows:
       - test_crud_operations:
           requires:
             - build 
-      - sauce-connect/with_proxy:
-          name: "Chrome Tests"
-          requires:
-            - build
-            - test_crud_operations
-          tunnel_identifier: chrome
-          steps:
-            - run: mvn verify -B -Dsauce.browser=chrome  -Dsauce.tunnel="chrome"
-      - sauce-connect/with_proxy:
-          name: "Safari Tests"
-          requires:
-            - build
-            - test_crud_operations
-          tunnel_identifier: safari
-          steps:
-            - run: mvn verify -B -Dsauce.browser=safari  -Dsauce.tunnel="safari"
+      # - sauce-connect/with_proxy:
+      #   $SAUCELABS_USER
+      #   $SAUCELABS_KEY
+      #   name: "Chrome Tests"
+      #   requires:
+      #     - build
+      #     - test_crud_operations
+      #   tunnel_identifier: chrome
+      #   steps:
+      #     - run: mvn verify -B -Dsauce.browser=chrome  -Dsauce.tunnel="chrome"
+      # - sauce-connect/with_proxy:
+      #   $SAUCELABS_USER
+      #   $SAUCELABS_KEY
+      #   name: "Safari Tests"
+      #   requires:
+      #     - build
+      #     - test_crud_operations
+      #   tunnel_identifier: safari
+      #   steps:
+      #     - run: mvn verify -B -Dsauce.browser=safari  -Dsauce.tunnel="safari"
           
 
       - hold:
@@ -53,8 +57,8 @@ workflows:
           requires:
             - build
             - test_crud_operations
-            - "Chrome Tests"
-            - "Safari Tests"
+            # - "Chrome Tests"
+            # - "Safari Tests"
       - deploy-to-heroku: #the app will deploy changed made only when pushed from testingdb branch
           requires:
             - hold

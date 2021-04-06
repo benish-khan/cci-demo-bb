@@ -1,5 +1,4 @@
 import unittest
-import pytest
 import sqlite3
 from app import app 
 
@@ -106,5 +105,5 @@ class testClass(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
-
+    import xmlrunner
+    unittest.main(testRunner=xmlrunner.XMLTestRunner(output='test-results'))
