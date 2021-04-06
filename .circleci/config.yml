@@ -17,7 +17,7 @@ executors:
 ### Workflows ###
 workflows:
   version: 2.1
-  build-test-&-deploy: 
+  build-test-&-deploy:
     jobs:
       - build
       - test_crud_operations:
@@ -34,7 +34,7 @@ workflows:
           filters:
             branches:
               only:
-                - testingdb
+                - master
 
 
  ### Jobs ###
