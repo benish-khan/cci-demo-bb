@@ -129,7 +129,7 @@ jobs:
           destination: trl
 
       - run:
-          name: Run Tests
+          name: Just a happy message that tests passed
           command: echo "Its working"
 
 
