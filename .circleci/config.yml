@@ -59,11 +59,19 @@ jobs:
       - save_cache: # cache Python dependencies using checksum of Pipfile as the cache-key
           key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
+<<<<<<< HEAD
             - "./venv"
       - persist_to_workspace:
           root: .
           paths:
             - .
+=======
+            - ./venv
+      # - persist_to_workspace:
+      #     root: ~/project
+      #     paths:
+      #       - my-temp-workspace
+>>>>>>> 26a18a9f619e496e19e9694868faa57df8547ce9
 
 
 
@@ -74,10 +82,11 @@ jobs:
     steps:
       - checkout
       - attach_workspace:
-          at: .
+          at: ~/project
       - run: 
           name: Install Python venv 
           command: | 
+<<<<<<< HEAD
             sudo pip install pipenv 
             pipenv install
       - run:
@@ -91,6 +100,13 @@ jobs:
           name: Conversion of test-results to junit.xml file
           command: pytest --junitxml=test-results/junit.xml
 
+=======
+            pipenv install 
+       
+      - run:
+          name: Running tests within test_app.py file. 
+          command: pipenv run python test_app.py 
+>>>>>>> 26a18a9f619e496e19e9694868faa57df8547ce9
 
             
       - store_test_results:
