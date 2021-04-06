@@ -12,7 +12,11 @@ orbs:
 executors:
   python-executor:
     docker:
-      - image: cimg/python:3.8
+      - image: cimg/python:3.9.2
+
+  python-browser-tools:
+    docker:
+      - image: cimg/python:3.9.2-browsers
   
 
 
@@ -25,7 +29,7 @@ workflows:
       - test_crud_operations:
           requires:
             - build 
-      # - sauce-connect/with_proxy:
+      # - sauce-connect/with_proxy: # https://circleci.com/developer/orbs/orb/circleci/browser-tools
       #   $SAUCELABS_USER
       #   $SAUCELABS_KEY
       #   name: "Chrome Tests"
@@ -100,9 +104,9 @@ jobs:
 
 
   test_crud_operations: #job with steps to test my application
-    executor: python-executor   #this was pre-defined and called here
+    executor: python-browser-tools   #this was pre-defined and called here
     parallelism: 4
-    resource_class: large
+    resource_class: medium
     steps:
       - checkout
       - attach_workspace:
