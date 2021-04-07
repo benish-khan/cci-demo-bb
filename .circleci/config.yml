@@ -2,7 +2,7 @@ version: 2.1 # use 2.1 to make use of orbs and pipelines
 
 #### Orbs  ###
 orbs:
-  heroku: circleci/heroku@1.2.6 #Example of my deployment orb to Heroku
+  heroku: circleci/heroku@1.2.6 #quickly deploy applications with minimal config
 
 
 ### Executors ### 
@@ -65,14 +65,15 @@ jobs:
           paths:
             - ./venv
 
+#Caching persists data between the same job in different workflows runs.
 
   test_crud_operations: #job with steps to test my application
     executor: python-executor   #this was pre-defined and called here
     parallelism: 4
-    resource_class: large
+    resource_class: medium
     steps:
       - checkout
-      - attach_workspace:
+      - attach_workspace: #persist data between jobs in a single workflow
           at: ~/project
       - run: 
           name: Install Python Dependencies in a venv 
@@ -91,7 +92,7 @@ jobs:
 
       - store_test_results:
           path: test-results
-      - store_artifacts:
+      - store_artifacts: #Artifacts persist data after a workflow has finished.
           path: test-results
           destination: trl
 
@@ -101,7 +102,7 @@ jobs:
 
 
 
-#pre-heroku-orb - review
+#pre-heroku-orb 
 
   # deploy-to-heroku: #job with steps to deploy my application once build and tests jobs pass on master only.
   #   executor: python-executor
