@@ -52,7 +52,7 @@ jobs:
             - pip-packages-v1-{{ .Branch }}-
             - pip-packages-v1-
       - run: 
-          name: Install Python venv #install pyenv here 
+          name: Install Python venv 
           command: | 
             pipenv install 
       - run:
