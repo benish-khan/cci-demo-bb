@@ -114,7 +114,7 @@ jobs:
   #         command: |
   #           sudo curl https://cli-assets.heroku.com/install.sh | sh
   #     - run:
-  #         name: Restart heroku dyno
+  #         name: Restart heroku dyno #update comment
   #         command: |
   #           heroku restart web.1 --app $HEROKU_APP_NAME
 
