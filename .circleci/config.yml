@@ -6,7 +6,7 @@ orbs:
 
 
 ### Executors ### 
-executors: #can reuse this executor in other jobs 
+executors: #can reuse this executor in other job 
   python-executor:
     docker:
       - image: cimg/python:3.8
