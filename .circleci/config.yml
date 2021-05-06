@@ -61,7 +61,7 @@ jobs:
           command: | 
             pipenv run python --version
 
-      - save_cache: # cache Python dependencies using checksum of Pipfile as the cache-key
+      - save_cache: # cache Python dependencies using checksum of Pipfile as the cache-key - if nothing changed.
           key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
             - ./venv
