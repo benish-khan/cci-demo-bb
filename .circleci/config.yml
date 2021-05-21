@@ -31,7 +31,7 @@ workflows:
             - build
             - test_crud_operations
 
-      - heroku/deploy-via-git: #using the pre-configured job, deploy-via-git in heroku 
+      - heroku/deploy-via-git: #using the pre-configured job, deploy-via-git in heroku orb!
           requires:
             - hold
           filters:
