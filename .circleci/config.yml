@@ -103,7 +103,7 @@ jobs:
 
 
 
-# pre-heroku-orb - this is all code I would need to type out if NOT using the orb.
+# pre-heroku-orb 
 
   # deploy-to-heroku: #job with steps to deploy my application once build and tests jobs pass on master only.
   #   executor: python-executor
