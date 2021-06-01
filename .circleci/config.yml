@@ -99,7 +99,7 @@ jobs:
 
       - run:
           name: Just a happy message that all tests passed
-          command: echo "Its working"
+          command: echo "Its working and test results are now stored successfully."
 
 
 
