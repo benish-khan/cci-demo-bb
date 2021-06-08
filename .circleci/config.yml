@@ -110,7 +110,7 @@ jobs:
   #   steps:
   #     - checkout
   #     - run:
-  #         name: Setup Heroku CLI 
+  #         name: Setup Heroku CLIs
   #         command: |
   #           sudo curl https://cli-assets.heroku.com/install.sh | sh
   #     - run:
