@@ -68,7 +68,7 @@ jobs:
 
 #Caching persists data between the same job in different workflows runs.
 
-  test_crud_operations: #job with steps to test my application
+  test_crud_operations: #job with steps to test my applicatio.
     executor: python-executor   #this was pre-defined and called here
     parallelism: 4
     resource_class: large
