@@ -105,7 +105,7 @@ jobs:
 
 # pre-heroku-orb 
 
-  # deploy-to-heroku: #job with steps to deploy my application once build and tests jobs pass on master only.
+  # deploy-to-heroku: #jobs with steps to deploy my application once build and tests jobs pass on master only.
   #   executor: python-executor
   #   steps:
   #     - checkout
