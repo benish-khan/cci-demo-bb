@@ -40,7 +40,7 @@ workflows:
                 - master #will only deploy if commit was pushed from master && approved in UI. Can get fancier with regex or multiple feature branches too
 
 
- ### Jobs ###
+ ### Job ###
 jobs:
   
   build: 
