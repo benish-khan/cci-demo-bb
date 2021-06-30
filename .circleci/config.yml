@@ -20,7 +20,7 @@ workflows:
     jobs:
       - build
       - test_crud_operations:
-          context: my-restricted-context
+          #context: my-restricted-context
           requires:
             - build 
 
