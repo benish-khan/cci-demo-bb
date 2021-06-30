@@ -2,49 +2,52 @@ version: 2.1 # use 2.1 to make use of orbs and pipelines
 
 #### Orbs  ###
 orbs:
-  python: circleci/python@1.3.3
-  slack: circleci/slack@2.0.0
-  heroku: circleci/heroku@1.2.6 
+  heroku: circleci/heroku@1.2.6 #quickly deploy applications with minimal config
+
 
 ### Executors ### 
-executors:
+executors: #can reuse this executor in other job
   python-executor:
     docker:
       - image: cimg/python:3.8
-    resource_class: medium
 
 
-### Workflow ###
+
+### Workflows ###
 workflows:
   version: 2.1
-  build-test-&-deploy: 
+  build-test-&-deploy:
     jobs:
       - build
       - test_crud_operations:
+          #context: my-restricted-context
           requires:
             - build 
-      - hold-heroku-deploy:
+
+
+      - hold:
           type: approval
           requires:
             - build
             - test_crud_operations
-      - deploy-to-heroku: #the app will deploy changed made only when pushed from testingdb branch
+
+      - heroku/deploy-via-git: #using the pre-configured job, deploy-via-git in heroku orb!
           requires:
-            - hold-heroku-deploy
+            - hold
           filters:
             branches:
               only:
-                - testingdb
+                - master #will only deploy if commit was pushed from master && approved in UI. Can get fancier with regex or multiple feature branches too
 
 
- ### Jobs ###
+ ### Jobs here ###
 jobs:
   
-  build: #job with steps to build my application
-    executor: python-executor
+  build: 
+    executor: python-executor 
     steps:
       - checkout
-      - restore_cache:
+      - restore_cache: # download new dependencies, if any, and not redownload everything on every build
           keys:
             - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
             - pip-packages-v1-{{ .Branch }}-
@@ -52,38 +55,32 @@ jobs:
       - run: 
           name: Install Python venv 
           command: | 
-            pipenv install
+            pipenv install 
       - run:
           name: Check Python version
           command: | 
             pipenv run python --version
-      - run:
-          name: Print relative path 
-          command: pwd
 
-      - save_cache: # cache Python dependencies using checksum of Pipfile as the cache-key
+      - save_cache: # cache Python dependencies using checksum of Pipfile as the cache-key 
           key: pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
           paths:
             - ./venv
-      # - persist_to_workspace:
-      #     root: ~/project
-      #     paths:
-      #       - my-temp-workspace
 
+#Caching persists data between the same job in different workflows runs.
 
-
-
-  test_crud_operations: #job with steps to test my application
+  test_crud_operations: #job with steps to test my applicatio.
     executor: python-executor   #this was pre-defined and called here
     parallelism: 4
+    resource_class: large
     steps:
       - checkout
-      - attach_workspace:
+      - attach_workspace: #persist data between jobs in a single workflow
           at: ~/project
       - run: 
           name: Install Python Dependencies in a venv 
           command: | 
             pipenv install 
+            pipenv install unittest-xml-reporting
       
       - run: 
           name: Create test-results file to store test-results in
@@ -96,31 +93,32 @@ jobs:
 
       - store_test_results:
           path: test-results
-      - store_artifacts:
+      - store_artifacts: #Artifacts persist data after a workflow has finished.
           path: test-results
           destination: trl
 
       - run:
-          name: Run Tests
-          command: echo "Its working"
+          name: Just a happy message that all tests passed
+          command: echo "Its working successfully."
 
 
 
+# pre-heroku-orb 
 
-  deploy-to-heroku: #job with steps to deploy my application once build and tests jobs pass on master only.
-    executor: python-executor
-    steps:
-      - checkout
-      - run:
-          name: Setup Heroku CLI 
-          command: |
-            sudo curl https://cli-assets.heroku.com/install.sh | sh
-      - run:
-          name: Restart heroku dyno
-          command: |
-            heroku restart web.1 --app $HEROKU_APP_NAME
+  # deploy-to-heroku: #jobs with steps to deploy my application once build and tests jobs pass on master only.
+  #   executor: python-executor
+  #   steps:
+  #     - checkout
+  #     - run:
+  #         name: Setup Heroku CLIs
+  #         command: |
+  #           sudo curl https://cli-assets.heroku.com/install.sh | sh
+  #     - run:
+  #         name: Restart heroku dyno #update comment
+  #         command: |
+  #           heroku restart web.1 --app $HEROKU_APP_NAME
 
-      - run:
-          name: Run Logs
-          command: |
-            heroku logs --app $HEROKU_APP_NAME
+  #     - run:
+  #         name: Run Logs
+  #         command: |
+  #           heroku logs --app $HEROKU_APP_NAME
