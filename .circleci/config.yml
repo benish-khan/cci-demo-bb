@@ -71,7 +71,7 @@ jobs:
   test_crud_operations: #job with steps to test my applicatio.
     executor: python-executor   #this was pre-defined and called here
     parallelism: 4
-    resource_class: large
+    resource_class: medium
     steps:
       - checkout
       - attach_workspace: #persist data between jobs in a single workflow
@@ -119,6 +119,6 @@ jobs:
   #           heroku restart web.1 --app $HEROKU_APP_NAME
 
   #     - run:
-  #         name: Run Logs
+  #         name: Run Log
   #         command: |
   #           heroku logs --app $HEROKU_APP_NAME
