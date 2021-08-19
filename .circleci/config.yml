@@ -69,7 +69,7 @@ jobs:
           paths:
             - ./venv
 
-#Caching persists data between the same job in different workflows runs.
+#Caching persists data between the same job in different workflow runs.
 
   test_crud_operations: #job with steps to test my applicatio.
     executor: python-executor   #this was pre-defined and called here
