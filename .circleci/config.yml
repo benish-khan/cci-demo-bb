@@ -50,7 +50,7 @@ jobs:
     executor: python-executor 
     steps:
       - checkout
-      - restore_cache: # download new dependencies, if any, and not redownload everything on every build
+      - restore_cache: # downloads new dependencies, if any, and not redownload everything on every build
           keys:
             - pip-packages-v1-{{ .Branch }}-{{ checksum "Pipfile.lock" }}
             - pip-packages-v1-{{ .Branch }}-
